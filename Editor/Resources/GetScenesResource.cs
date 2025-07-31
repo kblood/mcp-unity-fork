@@ -17,20 +17,18 @@ namespace McpUnity.Resources
     {
         public GetScenesResource()
         {
-            Name = "scenes";
+            Name = "get_scenes";
             Description = "Retrieves information about Unity scenes including open scenes, scenes in build settings, and all scene assets";
+            Uri = "unity://scenes/{sceneType}";
             IsAsync = false;
         }
 
-        public override JObject GetResource(string uri)
+        public override JObject Fetch(JObject parameters)
         {
             try
             {
-                // Parse URI to determine what type of scene information to return
-                // Examples: unity://scenes, unity://scenes/open, unity://scenes/build, unity://scenes/assets
-                
-                var uriParts = uri.Split('/');
-                string sceneType = uriParts.Length > 3 ? uriParts[3] : "all";
+                // Extract scene type from parameters
+                string sceneType = parameters?["sceneType"]?.ToString() ?? "all";
 
                 var result = new JObject();
 
@@ -54,6 +52,8 @@ namespace McpUnity.Resources
                         break;
                 }
 
+                result["success"] = true;
+                result["message"] = $"Retrieved scene information for type: {sceneType}";
                 return result;
             }
             catch (Exception ex)
@@ -61,8 +61,9 @@ namespace McpUnity.Resources
                 McpLogger.LogError($"Error getting scenes resource: {ex.Message}");
                 return new JObject
                 {
+                    ["success"] = false,
                     ["error"] = ex.Message,
-                    ["type"] = "scenes_error"
+                    ["message"] = $"Failed to retrieve scene information: {ex.Message}"
                 };
             }
         }
