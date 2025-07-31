@@ -1,4 +1,4 @@
-# MCP Unity Editor Enhanced v1.2.0 (Game Engine) 🎬
+# MCP Unity Editor Enhanced v1.2.2 (Game Engine) 🎬
 
 [![](https://badge.mcpx.dev?status=on 'MCP Enabled')](https://modelcontextprotocol.io/introduction)
 [![](https://img.shields.io/badge/Unity-000000?style=flat&logo=unity&logoColor=white 'Unity')](https://unity.com/releases/editor/archive)

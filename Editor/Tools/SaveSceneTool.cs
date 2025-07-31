@@ -85,7 +85,19 @@ namespace McpUnity.Tools
                     // Save specific scene or current active scene
                     Scene targetScene;
                     
-                    if (!string.IsNullOrEmpty(scenePath))
+                    if (saveAs)
+                    {
+                        // For save-as, always use the active scene
+                        targetScene = SceneManager.GetActiveScene();
+                        if (!targetScene.IsValid())
+                        {
+                            return McpUnity.Unity.McpUnitySocketHandler.CreateErrorResponse(
+                                "No active scene to save",
+                                "no_active_scene"
+                            );
+                        }
+                    }
+                    else if (!string.IsNullOrEmpty(scenePath))
                     {
                         // Find scene by path
                         targetScene = default(Scene);
@@ -124,6 +136,14 @@ namespace McpUnity.Tools
                     
                     if (saveAs && !string.IsNullOrEmpty(scenePath))
                     {
+                        // Ensure directory exists for save-as
+                        string directoryPath = Path.GetDirectoryName(scenePath);
+                        if (!Directory.Exists(directoryPath))
+                        {
+                            Directory.CreateDirectory(directoryPath);
+                            AssetDatabase.Refresh();
+                        }
+                        
                         // Save scene as new file
                         saved = EditorSceneManager.SaveScene(targetScene, scenePath);
                         
