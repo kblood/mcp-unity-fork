@@ -1,7 +1,7 @@
 {
   "name": "mcp-unity-server",
-  "version": "1.0.0",
-  "description": "MCP Unity Server for executing Unity operations and request Editor information",
+  "version": "1.2.0",
+  "description": "Enhanced MCP Unity Server v1.2.0 with scene management tools: create_scene, load_scene, save_scene, and comprehensive scene resources",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
