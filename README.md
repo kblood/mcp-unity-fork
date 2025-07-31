@@ -1,11 +1,14 @@
-# MCP Unity Editor (Game Engine)
+# MCP Unity Editor Enhanced (Game Engine) 🎬
 
 [![](https://badge.mcpx.dev?status=on 'MCP Enabled')](https://modelcontextprotocol.io/introduction)
 [![](https://img.shields.io/badge/Unity-000000?style=flat&logo=unity&logoColor=white 'Unity')](https://unity.com/releases/editor/archive)
 [![](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white 'Node.js')](https://nodejs.org/en/download/)
-[![](https://img.shields.io/github/stars/CoderGamester/mcp-unity 'Stars')](https://github.com/CoderGamester/mcp-unity/stargazers)
-[![](https://img.shields.io/github/last-commit/CoderGamester/mcp-unity 'Last Commit')](https://github.com/CoderGamester/mcp-unity/commits/main)
+[![](https://img.shields.io/github/stars/kblood/mcp-unity-fork 'Stars')](https://github.com/kblood/mcp-unity-fork/stargazers)
+[![](https://img.shields.io/github/last-commit/kblood/mcp-unity-fork 'Last Commit')](https://github.com/kblood/mcp-unity-fork/commits/main)
 [![](https://img.shields.io/badge/License-MIT-red.svg 'MIT License')](https://opensource.org/licenses/MIT)
+[![](https://img.shields.io/badge/AI--Generated-Claude%20Code-purple?logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K 'AI Generated with Claude Code')](https://claude.ai/code)
+
+> **🚀 Enhanced Fork**: This is an enhanced version of the original [MCP Unity](https://github.com/CoderGamester/mcp-unity) with comprehensive **Scene Management** capabilities added by [Claude Code](https://claude.ai/code).
 
 | [English](README.md) | [🇨🇳简体中文](README_zh-CN.md) | [🇯🇵日本語](README-ja.md) |
 |----------------------|---------------------------------|----------------------|
@@ -41,7 +44,19 @@
      ╚═╝     ╚═╝ ╚═════╝╚═╝              ╚═════╝ ╚═╝  ╚═══╝╚═╝   ╚═╝      ╚═╝   
 ```       
 
-MCP Unity is an implementation of the Model Context Protocol for Unity Editor, allowing AI assistants to interact with your Unity projects. This package provides a bridge between Unity and a Node.js server that implements the MCP protocol, enabling AI agents like Claude, Windsurf, and Cursor to execute operations within the Unity Editor.
+MCP Unity Enhanced is an implementation of the Model Context Protocol for Unity Editor, allowing AI assistants to interact with your Unity projects. This package provides a bridge between Unity and a Node.js server that implements the MCP protocol, enabling AI agents like Claude, Windsurf, and Cursor to execute operations within the Unity Editor.
+
+## 🆕 **New Scene Management Features**
+
+This enhanced fork adds comprehensive scene management capabilities:
+
+- **🎬 Create Scenes** with templates (empty, basic, 2D, 3D)
+- **📂 Load Scenes** by name or path (single/additive modes)  
+- **💾 Save Scenes** (current, all, or save-as operations)
+- **📊 Scene Information** (open scenes, build settings, assets)
+- **🏗️ Build Integration** (automatic build settings management)
+
+*All scene management features were AI-generated using [Claude Code](https://claude.ai/code) to enhance Unity development workflows.*
 
 <a href="https://glama.ai/mcp/servers/@CoderGamester/mcp-unity">
   <img width="400" height="200" src="https://glama.ai/mcp/servers/@CoderGamester/mcp-unity/badge" alt="Unity MCP server" />
@@ -85,6 +100,17 @@ The following tools are available for manipulating and querying Unity scenes and
 - `add_asset_to_scene`: Adds an asset from the AssetDatabase to the Unity scene
   > **Example prompt:** "Add the Player prefab from my project to the current scene"
 
+#### 🆕 **Scene Management Tools** *(AI-Generated)*
+
+- `create_scene`: Creates a new Unity scene with specified name and optional template
+  > **Example prompt:** "Create a new 3D scene called 'GameLevel1' and add it to build settings"
+
+- `load_scene`: Loads a Unity scene by path or name
+  > **Example prompt:** "Load the MainMenu scene" or "Load Assets/Scenes/Level1.unity in additive mode"
+
+- `save_scene`: Saves the current Unity scene or all open scenes
+  > **Example prompt:** "Save all open scenes" or "Save the current scene as Assets/Backup/SceneBackup.unity"
+
 ### MCP Server Resources
 
 - `unity://menu-items`: Retrieves a list of all available menu items in the Unity Editor to facilitate `execute_menu_item` tool
@@ -107,6 +133,12 @@ The following tools are available for manipulating and querying Unity scenes and
 
 - `unity://tests/{testMode}`: Retrieves information about tests in the Unity Test Runner
   > **Example prompt:** "List all available tests in my Unity project"
+
+#### 🆕 **Scene Management Resources** *(AI-Generated)*
+
+- `unity://scenes`: Retrieves comprehensive information about Unity scenes
+  > **Example prompt:** "Show me all scenes in the project" or "List currently open scenes"
+  > **Resource URIs:** `unity://scenes`, `unity://scenes/open`, `unity://scenes/build`, `unity://scenes/assets`
 
 ## Requirements
 - Unity 2022.3 or later - to [install the server](#install-server)
@@ -162,12 +194,25 @@ Installing this MCP Unity Server is a multi-step process:
    ```
 </details>
 
-### Step 2: Install Unity MCP Server package via Unity Package Manager
+### Step 2: Install Unity MCP Server Enhanced package via Unity Package Manager
+
+> **🚀 Choose Enhanced Version**: This enhanced fork includes powerful scene management features!
+
+#### Option A: Install Enhanced Fork (Recommended)
+1. Open the Unity Package Manager (Window > Package Manager)
+2. Click the "+" button in the top-left corner
+3. Select "Add package from git URL..."
+4. Enter: `https://github.com/kblood/mcp-unity-fork.git`
+5. Click "Add"
+
+#### Option B: Install Original Version
 1. Open the Unity Package Manager (Window > Package Manager)
 2. Click the "+" button in the top-left corner
 3. Select "Add package from git URL..."
 4. Enter: `https://github.com/CoderGamester/mcp-unity.git`
 5. Click "Add"
+
+*Note: The enhanced fork is fully compatible with the original but adds scene management capabilities.*
 
 ![package manager](https://github.com/user-attachments/assets/a72bfca4-ae52-48e7-a876-e99c701b0497)
 
@@ -440,9 +485,48 @@ The workaround is to turn off **Reload Domain** in **Edit > Project Settings > E
 
 </details>
 
+<details>
+<summary><span style="font-size: 1.1em; font-weight: bold;">🆕 How do I test the new scene management features?</span></summary>
+
+After installing the enhanced fork, you can test the scene management features:
+
+1. **Test Scene Creation**: Ask your AI assistant: *"Create a new 3D scene called 'TestScene'"*
+2. **Test Scene Loading**: Ask: *"Load the TestScene"* 
+3. **Test Scene Saving**: Ask: *"Save all open scenes"*
+4. **Test Scene Information**: Ask: *"Show me all scenes in the project"*
+
+The enhanced features are fully compatible with the original MCP Unity functionality.
+
+</details>
+
+<details>
+<summary><span style="font-size: 1.1em; font-weight: bold;">🆕 What's different in the enhanced fork?</span></summary>
+
+The enhanced fork adds comprehensive scene management capabilities while maintaining full compatibility:
+
+**New Tools:**
+- `create_scene` - Create scenes with templates
+- `load_scene` - Load scenes by name/path  
+- `save_scene` - Save current/all scenes
+- `unity://scenes` - Scene information resource
+
+**Key Benefits:**
+- AI can now fully manage Unity projects
+- Better organization for complex game projects
+- Automated build settings management
+- No breaking changes to existing functionality
+
+*All enhancements were AI-generated using [Claude Code](https://claude.ai/code).*
+
+</details>
+
 ## Support & Feedback
 
-If you have any questions or need support, please open an [issue](https://github.com/CoderGamester/mcp-unity/issues) on this repository or alternative you can reach out on:
+### For Enhanced Fork (Scene Management Features)
+If you have questions about the enhanced scene management features, please open an [issue](https://github.com/kblood/mcp-unity-fork/issues) on this repository.
+
+### For Original MCP Unity Features  
+For questions about the core MCP Unity functionality, please refer to the [original repository](https://github.com/CoderGamester/mcp-unity/issues) or reach out to:
 - Linkedin: [![](https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white 'LinkedIn')](https://www.linkedin.com/in/miguel-tomas/)
 - Discord: gamester7178
 - Email: game.gamester@gmail.com
@@ -452,6 +536,9 @@ If you have any questions or need support, please open an [issue](https://github
 Contributions are welcome! Please feel free to submit a Pull Request or open an Issue with your request.
 
 **Commit your changes** following the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.
+
+### 🤖 AI-Generated Enhancements
+The scene management features in this fork were generated using [Claude Code](https://claude.ai/code), demonstrating the power of AI-assisted development for enhancing open-source tools.
 
 ## License
 
@@ -463,3 +550,13 @@ This project is under [MIT License](License.md)
 - [Unity Technologies](https://unity.com)
 - [Node.js](https://nodejs.org)
 - [WebSocket-Sharp](https://github.com/sta/websocket-sharp)
+- **🤖 [Claude Code](https://claude.ai/code)** - AI assistant that generated the scene management enhancements
+- **👨‍💻 [CoderGamester/mcp-unity](https://github.com/CoderGamester/mcp-unity)** - Original MCP Unity implementation
+
+---
+
+## 🎬 Scene Management Features Documentation
+
+For detailed information about the new scene management capabilities, see [SCENE_MANAGEMENT_FEATURES.md](SCENE_MANAGEMENT_FEATURES.md).
+
+**🚀 Ready to enhance your Unity development with AI-powered scene management!**
