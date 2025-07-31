@@ -72,13 +72,23 @@ namespace McpUnity.Tools
                     AssetDatabase.Refresh();
                 }
 
-                // Check if scene already exists
+                // Handle existing scene files
                 if (File.Exists(scenePath))
                 {
-                    return McpUnity.Unity.McpUnitySocketHandler.CreateErrorResponse(
-                        $"Scene already exists at path: {scenePath}",
-                        "scene_exists"
-                    );
+                    // Make the path unique by appending a number
+                    string originalPath = scenePath;
+                    string directory = Path.GetDirectoryName(scenePath);
+                    string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(scenePath);
+                    string extension = Path.GetExtension(scenePath);
+                    
+                    int counter = 1;
+                    do
+                    {
+                        scenePath = Path.Combine(directory, $"{fileNameWithoutExtension}_{counter}{extension}");
+                        counter++;
+                    } while (File.Exists(scenePath));
+                    
+                    McpLogger.LogInfo($"Scene already existed at {originalPath}, using {scenePath} instead");
                 }
 
                 // Create new scene

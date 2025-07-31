@@ -8,12 +8,14 @@ import { CallToolResult } from '@modelcontextprotocol/sdk/types.js';
 // Constants for the tool
 const toolName = 'load_scene';
 const toolDescription = 'Loads a Unity scene by path or name';
-const paramsSchema = z.object({
+const baseParamsSchema = z.object({
   scenePath: z.string().optional().describe('The path of the scene to load'),
   sceneName: z.string().optional().describe('The name of the scene to load (alternative to scenePath)'),
   loadMode: z.enum(['single', 'additive']).default('single').describe('The load mode for the scene'),
   saveCurrentScene: z.boolean().default(true).describe('Whether to save the current scene before loading the new one'),
-}).refine(data => data.scenePath || data.sceneName, {
+});
+
+const paramsSchema = baseParamsSchema.refine(data => data.scenePath || data.sceneName, {
   message: 'Either scenePath or sceneName must be provided',
 });
 
@@ -32,7 +34,7 @@ export function registerLoadSceneTool(server: McpServer, mcpUnity: McpUnity, log
     server.tool(
       toolName,
       toolDescription,
-      paramsSchema.shape,
+      baseParamsSchema.shape,
       async (params: any) => {
         try {
           logger.info(`Executing tool: ${toolName}`, params);

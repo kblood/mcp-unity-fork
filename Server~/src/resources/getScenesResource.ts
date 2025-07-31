@@ -1,8 +1,8 @@
-import { McpUnity } from '../unity/mcpUnity.js';
 import { Logger } from '../utils/logger.js';
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { McpUnityError, ErrorType } from '../utils/errors.js';
+import { ResourceTemplate, McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { ReadResourceResult } from '@modelcontextprotocol/sdk/types.js';
+import { McpUnity } from '../unity/mcpUnity.js';
+import { McpUnityError, ErrorType } from '../utils/errors.js';
 
 /**
  * Creates and registers the Get Scenes resource with the MCP server
@@ -26,10 +26,13 @@ export function registerGetScenesResource(server: McpServer, mcpUnity: McpUnity,
 
     sceneResources.forEach(uri => {
         server.resource(
+            'get_scenes',
             uri,
-            `Unity scenes information - ${getResourceDescription(uri)}`,
-            'application/json',
-            async (uri: string) => {
+            {
+                description: `Unity scenes information - ${getResourceDescription(uri)}`,
+                mimeType: 'application/json'
+            },
+            async () => {
                 try {
                     logger.info(`Fetching resource: ${uri}`);
                     const result = await resourceHandler(mcpUnity, uri);
@@ -92,7 +95,8 @@ async function resourceHandler(mcpUnity: McpUnity, uri: string): Promise<ReadRes
 
     return {
         contents: [{
-            type: 'text',
+            uri: uri,
+            mimeType: 'application/json',
             text: formattedContent
         }]
     };

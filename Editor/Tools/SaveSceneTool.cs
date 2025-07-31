@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -50,8 +51,8 @@ namespace McpUnity.Tools
 
                 if (saveAll)
                 {
-                    // Save all open scenes
-                    bool allSaved = EditorSceneManager.SaveOpenScenes();
+                    // Save all open scenes - handle unsaved scenes programmatically
+                    bool allSaved = SaveAllScenesWithoutDialogs();
                     
                     if (allSaved)
                     {
@@ -133,8 +134,24 @@ namespace McpUnity.Tools
                     }
                     else
                     {
-                        // Save existing scene
-                        saved = EditorSceneManager.SaveScene(targetScene);
+                        // Save existing scene - handle unsaved scenes programmatically
+                        if (string.IsNullOrEmpty(targetScene.path))
+                        {
+                            // Scene has never been saved, generate a path
+                            string defaultPath = $"Assets/Scenes/{targetScene.name}.unity";
+                            // Ensure directory exists
+                            string directoryPath = Path.GetDirectoryName(defaultPath);
+                            if (!Directory.Exists(directoryPath))
+                            {
+                                Directory.CreateDirectory(directoryPath);
+                                AssetDatabase.Refresh();
+                            }
+                            saved = EditorSceneManager.SaveScene(targetScene, defaultPath);
+                        }
+                        else
+                        {
+                            saved = EditorSceneManager.SaveScene(targetScene);
+                        }
                     }
 
                     if (saved)
@@ -189,6 +206,72 @@ namespace McpUnity.Tools
             }
         }
 
+        private bool SaveAllScenesWithoutDialogs()
+        {
+            try
+            {
+                bool allSaved = true;
+                
+                for (int i = 0; i < SceneManager.sceneCount; i++)
+                {
+                    Scene scene = SceneManager.GetSceneAt(i);
+                    if (scene.IsValid() && scene.isDirty)
+                    {
+                        if (!string.IsNullOrEmpty(scene.path))
+                        {
+                            // Scene has a path, save it
+                            bool saved = EditorSceneManager.SaveScene(scene);
+                            if (!saved)
+                            {
+                                allSaved = false;
+                                McpLogger.LogError($"Failed to save scene: {scene.name}");
+                            }
+                        }
+                        else
+                        {
+                            // Scene has never been saved, generate a path
+                            string defaultPath = $"Assets/Scenes/{scene.name}.unity";
+                            
+                            // Ensure directory exists
+                            string directoryPath = Path.GetDirectoryName(defaultPath);
+                            if (!Directory.Exists(directoryPath))
+                            {
+                                Directory.CreateDirectory(directoryPath);
+                                AssetDatabase.Refresh();
+                            }
+                            
+                            // Make path unique if file already exists
+                            int counter = 1;
+                            string uniquePath = defaultPath;
+                            while (File.Exists(uniquePath))
+                            {
+                                uniquePath = $"Assets/Scenes/{scene.name}_{counter}.unity";
+                                counter++;
+                            }
+                            
+                            bool saved = EditorSceneManager.SaveScene(scene, uniquePath);
+                            if (!saved)
+                            {
+                                allSaved = false;
+                                McpLogger.LogError($"Failed to save scene: {scene.name} to {uniquePath}");
+                            }
+                            else
+                            {
+                                McpLogger.LogInfo($"Saved unsaved scene: {scene.name} to {uniquePath}");
+                            }
+                        }
+                    }
+                }
+                
+                return allSaved;
+            }
+            catch (Exception ex)
+            {
+                McpLogger.LogError($"Error in SaveAllScenesWithoutDialogs: {ex.Message}");
+                return false;
+            }
+        }
+        
         private void AddSceneToBuildSettings(string scenePath)
         {
             try
