@@ -32,10 +32,10 @@ const toolLogger = new Logger('Tools', LogLevel.INFO);
 const resourceLogger = new Logger('Resources', LogLevel.INFO);
 
 // Initialize the MCP server
-const server = new McpServer (
+const server = new McpServer(
   {
     name: "MCP Unity Server",
-    version: "1.0.0"
+    version: "1.2.3"
   },
   {
     capabilities: {
@@ -91,8 +91,8 @@ async function startServer() {
     const clientName = server.server.getClientVersion()?.name || 'Unknown MCP Client';
     serverLogger.info(`Connected MCP client: ${clientName}`);
     
-    // Start Unity Bridge connection with client name in headers
-    await mcpUnity.start(clientName);
+    // Don't start Unity Bridge connection immediately - it will connect on-demand when tools are called
+    serverLogger.info('Unity Bridge initialized for on-demand connection');
     
   } catch (error) {
     serverLogger.error('Failed to start server', error);
